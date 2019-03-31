@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "971982560177",
+    "firebase_url": "https://adminappbelitiket-cca49.firebaseio.com",
+    "project_id": "adminappbelitiket-cca49",
+    "storage_bucket": "adminappbelitiket-cca49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971982560177:android:9bcac818669aceea",
+        "android_client_info": {
+          "package_name": "com.example.adminappbelitiket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971982560177-lrivdsukrjckd5ifrbp3kfn52bi5b7g0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adminappbelitiket",
+            "certificate_hash": "85d5a6ed293425d20bd3cf0b3da0ce9064b91f61"
+          }
+        },
+        {
+          "client_id": "971982560177-gmg7m1se4b565oj3b4u8lumscaab5gku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL3ZRYEiMh0LnymhrEOxaKXI8JJhIhRi8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971982560177-gmg7m1se4b565oj3b4u8lumscaab5gku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
