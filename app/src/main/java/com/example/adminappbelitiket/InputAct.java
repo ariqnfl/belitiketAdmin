@@ -24,9 +24,9 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class InputAct extends AppCompatActivity {
-    EditText etName,etDesc,etPrice;
+    EditText etName,etDesc,etPrice,etLocation,etPhotospot,etWifi,etFestival,etKetentuan,etDate,etTime;
     Uri photo_location;
-    ImageView pic_photo_menu;
+    ImageView pic_photo_wisata;
     Integer photo_max = 1;
     Button btn_upload,btn_add_pic_menu;
 
@@ -38,10 +38,17 @@ public class InputAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
 
-        etName = findViewById(R.id.name_menu);
+        etName = findViewById(R.id.name_wisata);
         etDesc = findViewById(R.id.desc);
         etPrice = findViewById(R.id.harga);
-        pic_photo_menu = findViewById(R.id.pic_photo_menu);
+        etLocation = findViewById(R.id.lokasi);
+        etPhotospot = findViewById(R.id.photospot);
+        etWifi = findViewById(R.id.wifi);
+        etFestival = findViewById(R.id.wifi);
+        etKetentuan = findViewById(R.id.ketentuan);
+        etDate = findViewById(R.id.date_wisata);
+        etTime = findViewById(R.id.waktu_wisata);
+        pic_photo_wisata = findViewById(R.id.pic_photo_wisata);
         btn_upload = findViewById(R.id.btn_upload);
         btn_add_pic_menu = findViewById(R.id.btn_add_menu_photo);
 
@@ -61,8 +68,8 @@ public class InputAct extends AppCompatActivity {
 
                 // menyimpan kepada firebase
                 reference = FirebaseDatabase.getInstance().getReference()
-                        .child("Menu").child(etName.getText().toString());
-                storage = FirebaseStorage.getInstance().getReference().child("Photomenu").child(etName.getText().toString());
+                        .child("Wisata").child(etName.getText().toString());
+                storage = FirebaseStorage.getInstance().getReference().child("Photowisata").child(etName.getText().toString());
 
                 // validasi untuk file (apakah ada?)
                 if (photo_location != null) {
@@ -79,13 +86,20 @@ public class InputAct extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             String uri_photo = uri.toString();
-                                            reference.getRef().child("url_photo_menu").setValue(uri_photo);
+                                            reference.getRef().child("url_thumbnail").setValue(uri_photo);
 
                                         }
                                     });
-                                    reference.getRef().child("nama_makanan").setValue(etName.getText().toString());
-                                    reference.getRef().child("deskripsi").setValue(etDesc.getText().toString());
-                                    reference.getRef().child("harga").setValue(etPrice.getText().toString());
+                                    reference.getRef().child("nama_wisata").setValue(etName.getText().toString());
+                                    reference.getRef().child("short_desc").setValue(etDesc.getText().toString());
+                                    reference.getRef().child("harga_tiket").setValue(etPrice.getText().toString());
+                                    reference.getRef().child("date_wisata").setValue(etDate.getText().toString());
+                                    reference.getRef().child("is_festival").setValue(etFestival.getText().toString());
+                                    reference.getRef().child("is_photo_spot").setValue(etPhotospot.getText().toString());
+                                    reference.getRef().child("is_wifi").setValue(etWifi.getText().toString());
+                                    reference.getRef().child("ketentuan").setValue(etKetentuan.getText().toString());
+                                    reference.getRef().child("lokasi").setValue(etLocation.getText().toString());
+                                    reference.getRef().child("time_wisata").setValue(etTime.getText().toString());
                                 }
                             }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -113,6 +127,7 @@ public class InputAct extends AppCompatActivity {
         pic.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(pic, photo_max);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,11 +135,12 @@ public class InputAct extends AppCompatActivity {
         if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             photo_location = data.getData();
-            Picasso.with(this).load(photo_location).centerCrop().fit().into(pic_photo_menu);
+            Picasso.with(this).load(photo_location).centerCrop().fit().into(pic_photo_wisata);
 
         }
 
     }
+
 
 
 }

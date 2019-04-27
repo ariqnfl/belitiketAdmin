@@ -3,6 +3,7 @@ package com.example.adminappbelitiket;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -30,45 +31,47 @@ import java.util.ArrayList;
 
 public class AdapterCard extends RecyclerView.Adapter<AdapterCard.ViewHolder> {
     ArrayList<Card> myMenu;
-    Context context;
-    DatabaseReference reference;
 
-    public AdapterCard(ArrayList<Card> p, Context c) {
-        context = c;
-        myMenu = p;
+    public AdapterCard(ArrayList<Card> myMenu) {
+        this.myMenu = myMenu;
     }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.
-                from(context).inflate(R.layout.home_card,
-                viewGroup, false));
+    public AdapterCard.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        View view = layoutInflater.inflate(R.layout.home_card,viewGroup,false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        viewHolder.xnama_menu.setText(myMenu.get(i).getNama_makanan());
-        viewHolder.xharga.setText(myMenu.get(i).getHarga());
-        Picasso.with(context).load(myMenu.get(i).getUrl_photo_menu()).centerCrop().fit().into(viewHolder.xphoto_menu);
+    public void onBindViewHolder(@NonNull AdapterCard.ViewHolder viewHolder, int i) {
+        viewHolder.bind(myMenu.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return myMenu.size();
+        return myMenu == null ? 0 : myMenu.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView xnama_menu, xharga;
-        ImageView xphoto_menu;
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView xphoto_wisata;
+        private String nama_wisata;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            xphoto_wisata = itemView.findViewById(R.id.ivWisata);
+            itemView.setOnClickListener(this);
+        }
+        void bind(Card card){
+            Picasso.with(itemView.getContext()).load(card.getUrl_thumbnail()).centerCrop().fit().into(xphoto_wisata);
+            nama_wisata = card.getNama_wisata();
+        }
 
-            xnama_menu = itemView.findViewById(R.id.tvJudul);
-            xharga = itemView.findViewById(R.id.tvHarga);
-            xphoto_menu = itemView.findViewById(R.id.pic_photo_makanan);
-
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(itemView.getContext(),EditWisataAct.class);
+            intent.putExtra("nama_wisata",nama_wisata);
+            itemView.getContext().startActivity(intent);
         }
     }
 }

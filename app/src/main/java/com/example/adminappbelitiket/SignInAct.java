@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SignInAct extends AppCompatActivity {
 
-    TextView btn_new_account;
     Button btn_sign_in;
     EditText xusername, xpassword;
 
@@ -32,18 +31,10 @@ public class SignInAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        btn_new_account = findViewById(R.id.btn_new_account);
         btn_sign_in = findViewById(R.id.btn_sign_in);
         xusername = findViewById(R.id.xusername);
         xpassword = findViewById(R.id.xpassword);
 
-        btn_new_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gotoregisterone = new Intent(SignInAct.this, RegisterOneAct.class);
-                startActivity(gotoregisterone);
-            }
-        });
 
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +65,7 @@ public class SignInAct extends AppCompatActivity {
                         reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
+                                if (dataSnapshot.exists() && username.equals("admin")) {
 
                                     // ambil data password dari firebase
                                     String passwordFromFirebase = dataSnapshot.child("password").getValue().toString();
@@ -89,7 +80,7 @@ public class SignInAct extends AppCompatActivity {
                                         editor.apply();
 
                                         // berpindah activity
-                                        Intent gotohome = new Intent(SignInAct.this, HomeAct.class);
+                                        Intent gotohome = new Intent(SignInAct.this, MyMenuAct.class);
                                         startActivity(gotohome);
 
                                     } else {
@@ -101,7 +92,7 @@ public class SignInAct extends AppCompatActivity {
 
 
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Username tidak ada!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Anda Bukan Admin !", Toast.LENGTH_SHORT).show();
                                     // ubah state menjadi loading
                                     btn_sign_in.setEnabled(true);
                                     btn_sign_in.setText("SIGN IN");

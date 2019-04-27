@@ -23,7 +23,7 @@ public class HomeAct extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Card> list;
     AdapterCard adapterCard;
-    Button btn_add_menu,btn_logout;
+    Button btn_add_menu;
 
 
     String USERNAME_KEY = "usernamekey";
@@ -42,24 +42,13 @@ public class HomeAct extends AppCompatActivity {
         list = new ArrayList<Card>();
 
         btn_add_menu = findViewById(R.id.btn_add_menu);
-        btn_logout = findViewById(R.id.btn_logout);
         btn_add_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(HomeAct.this,InputAct.class),REQUEST_MENU);
             }
         });
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY,MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(username_key,null);
-                startActivity(new Intent(HomeAct.this,GetStartedAct.class));
-                finish();
-            }
-        });
-        reference = FirebaseDatabase.getInstance().getReference().child("Menu");
+        reference = FirebaseDatabase.getInstance().getReference().child("Wisata");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -67,7 +56,7 @@ public class HomeAct extends AppCompatActivity {
                     Card card = dataSnapshot1.getValue(Card.class);
                     list.add(card);
                 }
-                adapterCard = new AdapterCard(list,HomeAct.this);
+                adapterCard = new AdapterCard(list);
                 recyclerView.setAdapter(adapterCard);
             }
 
